@@ -281,6 +281,26 @@
     .skill-bar-wrap { width: 80px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; transition: background .4s; }
     .skill-bar { height: 100%; width: 0; border-radius: 2px; background: linear-gradient(90deg, var(--violet), var(--cyan)); transition: width 1.4s cubic-bezier(.22,1,.36,1); }
 
+    /* ─── EXPERIENCE ─── */
+    #experience .experience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .experience-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color .25s, transform .25s, background .4s;
+    }
+    .experience-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
+    .experience-meta {
+      display: flex; justify-content: space-between; gap: 1rem;
+      margin-bottom: .75rem; font-size: .68rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--cyan); transition: color .4s;
+    }
+    .experience-role { font-size: 1rem; font-weight: 700; color: var(--white); transition: color .4s; }
+    .experience-company { font-size: .85rem; color: var(--green); margin-top: .25rem; transition: color .4s; }
+    .experience-points { margin-top: 1rem; padding-left: 1rem; color: var(--muted); }
+    .experience-points li { margin-bottom: .65rem; line-height: 1.6; font-size: .8rem; }
+
     /* ─── PROJECTS ─── */
     #projects .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
     .project-card {
@@ -375,19 +395,182 @@
       nav ul { display:none; }
       .nav-right { gap:.8rem; }
     }
+
+    /* ═══════════════════════════════════════
+       DOTA 2 ELEMENTS
+    ═══════════════════════════════════════ */
+
+    /* ── Rune pickup notification ── */
+    #dota-rune {
+      position: fixed; top: 72px; right: 1.4rem;
+      z-index: 300;
+      display: flex; align-items: center; gap: .65rem;
+      padding: .55rem 1rem;
+      background: rgba(6,4,0,.94);
+      border: 1px solid #b8820a;
+      border-radius: 3px;
+      box-shadow: 0 0 24px rgba(200,146,10,.3), inset 0 1px 0 rgba(255,200,50,.08);
+      font-size: .72rem;
+      pointer-events: none;
+      transform: translateX(130%);
+      transition: transform .45s cubic-bezier(.22,1,.36,1);
+      min-width: 210px;
+    }
+    #dota-rune.show { transform: translateX(0); }
+    .rune-orb {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      border: 1.5px solid rgba(255,255,255,.2);
+      box-shadow: 0 0 10px var(--rune-c, #ffd700);
+    }
+    .rune-body { display: flex; flex-direction: column; gap: .1rem; }
+    .rune-title { font-size: .7rem; font-weight: 700; color: var(--rune-c, #ffd700); letter-spacing: .06em; }
+    .rune-sub   { font-size: .59rem; color: #9a7535; letter-spacing: .05em; }
+
+    /* ── Kill feed ── */
+    #kill-feed {
+      position: fixed; top: 72px; left: 1.4rem;
+      z-index: 300;
+      display: flex; flex-direction: column; gap: .35rem;
+      pointer-events: none;
+    }
+    .kf-entry {
+      display: flex; align-items: center; gap: .45rem;
+      padding: .28rem .65rem;
+      background: rgba(0,0,0,.78);
+      border-left: 2px solid #cc1111;
+      border-radius: 0 2px 2px 0;
+      font-size: .64rem; letter-spacing: .05em;
+      opacity: 0; transform: translateX(-16px);
+      transition: opacity .3s, transform .3s;
+      backdrop-filter: blur(4px);
+    }
+    .kf-entry.show { opacity: 1; transform: none; }
+    .kf-hero   { color: #00e5ff; font-weight: 700; }
+    .kf-sword  { color: #ffd700; }
+    .kf-target { color: #ff5555; }
+    .kf-streak { color: #ff9900; font-weight: 700; }
+
+    /* ── Ability bar ── */
+    .dota-abilities {
+      display: flex; gap: .55rem;
+      margin-top: 2rem; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .dota-ability {
+      position: relative;
+      width: 64px; height: 64px;
+      background: #0c0803;
+      border: 1.5px solid #2e1f08;
+      border-radius: 4px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: .15rem; cursor: default;
+      transition: border-color .25s, box-shadow .25s;
+      overflow: hidden;
+    }
+    .dota-ability::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 40%, var(--ab-c), transparent 70%);
+      opacity: .14;
+    }
+    .dota-ability:hover { border-color: var(--ab-c); box-shadow: 0 0 16px color-mix(in srgb, var(--ab-c) 60%, transparent); }
+    .ab-hotkey {
+      position: absolute; top: 3px; left: 5px;
+      font-size: .56rem; font-weight: 900;
+      color: rgba(255,255,255,.45); line-height: 1;
+      text-shadow: 0 1px 3px #000;
+    }
+    .ab-mana {
+      position: absolute; bottom: 2px; right: 4px;
+      font-size: .5rem; color: #5588ff; font-weight: 700;
+    }
+    .ab-emoji { font-size: 1.35rem; line-height: 1; }
+    .ab-label {
+      font-size: .5rem; letter-spacing: .04em;
+      color: rgba(255,255,255,.55); text-transform: uppercase;
+      text-align: center; line-height: 1.2; padding: 0 3px;
+    }
+
+    /* ult glow */
+    .dota-ability.ult {
+      border-color: #c8920a;
+      animation: ult-pulse 2.6s ease-in-out infinite;
+    }
+    .dota-ability.ult .ab-hotkey { color: #ffd060; }
+    @keyframes ult-pulse {
+      0%,100% { box-shadow: 0 0 12px rgba(200,146,10,.3); }
+      50%      { box-shadow: 0 0 28px rgba(200,146,10,.6), 0 0 50px rgba(200,146,10,.15); }
+    }
+
+    /* ── Dota quick-stats row ── */
+    .dota-hud-row {
+      display: flex; gap: 1.4rem; justify-content: center;
+      margin-top: .9rem; flex-wrap: wrap;
+    }
+    .dota-hud-stat {
+      display: flex; align-items: center; gap: .3rem;
+      font-size: .66rem; color: var(--muted); letter-spacing: .1em;
+      font-family: 'Courier New', monospace;
+      transition: color .4s;
+    }
+    .dota-hud-stat .dval { color: #ffd060; font-weight: 700; }
+    .dota-hud-stat .dico { font-size: .78rem; }
+
+    /* ── Aghanim's Scepter badge ── */
+    .agha-badge {
+      display: inline-flex; align-items: center; gap: .3rem;
+      font-size: .58rem; padding: .14rem .48rem;
+      border-radius: 3px;
+      background: rgba(140,50,220,.14);
+      border: 1px solid rgba(180,80,255,.35);
+      color: #c080ff; letter-spacing: .07em;
+      text-transform: uppercase; font-weight: 700;
+      margin-top: .2rem;
+    }
+
+    /* ── Aegis of the Immortal scene label ── */
+    #aegis-label {
+      position: absolute;
+      bottom: 1.4rem; right: 1.8rem;
+      z-index: 2;
+      font-size: .6rem; letter-spacing: .18em;
+      color: rgba(255,210,50,.55);
+      text-transform: uppercase;
+      pointer-events: none;
+      animation: aegis-fade 3s ease-in-out infinite;
+    }
+    @keyframes aegis-fade {
+      0%,100%{opacity:.4} 50%{opacity:.85}
+    }
   </style>
 </head>
 <body>
 
 <div id="cursor-glow"></div>
 
+<!-- DOTA 2: Rune notification -->
+<div id="dota-rune">
+  <div class="rune-orb" id="rune-orb">🟡</div>
+  <div class="rune-body">
+    <div class="rune-title" id="rune-title">Bounty Rune</div>
+    <div class="rune-sub"  id="rune-sub">+250 Gold secured</div>
+  </div>
+</div>
+
+<!-- DOTA 2: Kill feed -->
+<div id="kill-feed"></div>
+
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">portfolio<span>-</span>rafae</div>
+  <div class="nav-logo">portfolio<span>-</span>Abdul-Rafae</div>
   <div class="nav-right">
     <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#progression">Journey</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -402,15 +585,15 @@
 <!-- HERO -->
 <section id="hero">
   <canvas id="hero-canvas"></canvas>
-  <div class="hero-tag">// systems engineer · builder · strategist</div>
-  <h1 class="hero-name">RAFAE<span class="accent">.</span></h1>
+  <div class="hero-tag">// full-stack engineer · performance-minded · production-ready</div>
+  <h1 class="hero-name">ABDUL RAFAE<span class="accent">.</span></h1>
   <p class="hero-sub">
-    I build <span class="hl">clean systems</span>, ship real products,<br/>
-    and treat engineering like a strategy game worth mastering.
+    I build <span class="hl">scalable web platforms</span>, optimize slow systems,<br/>
+    and ship backend-to-frontend products that hold up in production.
   </p>
   <div class="level-badge">
     <span class="level-dot"></span>
-    LVL 12 — Senior Engineer
+    LVL 12 — Full-Stack Software Engineer
   </div>
   <div class="xp-bar-wrap reveal">
     <div class="xp-label">
@@ -422,9 +605,49 @@
     </div>
   </div>
   <div class="cta-row">
-    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="#experience" class="btn btn-primary">View Experience</a>
+    <a href="Abdul-Rafae-Full-Stack-CV.pdf" class="btn btn-outline" target="_blank" rel="noreferrer">Download CV</a>
     <a href="#contact" class="btn btn-outline">Contact Me</a>
   </div>
+
+  <!-- DOTA 2: Ability bar -->
+  <div class="dota-abilities" title="Hero Abilities">
+    <div class="dota-ability" style="--ab-c:#00e5ff">
+      <span class="ab-hotkey">Q</span>
+      <span class="ab-emoji">⚙️</span>
+      <span class="ab-label">Backend</span>
+      <span class="ab-mana">85</span>
+    </div>
+    <div class="dota-ability" style="--ab-c:#7c3aed">
+      <span class="ab-hotkey">W</span>
+      <span class="ab-emoji">🛡️</span>
+      <span class="ab-label">Security</span>
+      <span class="ab-mana">110</span>
+    </div>
+    <div class="dota-ability" style="--ab-c:#00ff88">
+      <span class="ab-hotkey">E</span>
+      <span class="ab-emoji">⚡</span>
+      <span class="ab-label">Frontend</span>
+      <span class="ab-mana">70</span>
+    </div>
+    <div class="dota-ability ult" style="--ab-c:#ffd060">
+      <span class="ab-hotkey">R</span>
+      <span class="ab-emoji">🔱</span>
+      <span class="ab-label">Full Stack</span>
+      <span class="ab-mana">200</span>
+    </div>
+  </div>
+
+  <!-- DOTA 2: HUD stats row -->
+  <div class="dota-hud-row">
+    <div class="dota-hud-stat"><span class="dico">🪙</span> GPM <span class="dval">847</span></div>
+    <div class="dota-hud-stat"><span class="dico">✨</span> XPM <span class="dval">1,024</span></div>
+    <div class="dota-hud-stat"><span class="dico">⚔️</span> Last Hits <span class="dval">312</span></div>
+    <div class="dota-hud-stat"><span class="dico">💀</span> Bugs Killed <span class="dval">∞</span></div>
+  </div>
+
+  <!-- Aegis label -->
+  <div id="aegis-label">◈ Aegis of the Immortal active</div>
 </section>
 
 <!-- ABOUT -->
@@ -437,15 +660,15 @@
     </div>
     <div class="grid">
       <div class="about-text reveal">
-        <p>I'm a full-stack engineer with a deep interest in <span class="hl">systems design</span>, security, and performance. I don't just write code — I build things that work correctly, efficiently, and are ready for production.</p>
-        <p>My approach to engineering is like a strategy game: understand the system deeply, find the optimal path, execute with precision. Messy processes become clean architectures. Ambiguous requirements become concrete implementations.</p>
-        <p>When I'm not engineering systems, I'm probably studying <span class="hl">game mechanics</span>, exploring anime-inspired aesthetics, or thinking about how things could run faster or cleaner.</p>
+        <p>I'm a full-stack software engineer specializing in <span class="hl">Python backend systems</span> and modern React and Next.js frontends. My focus is building scalable, maintainable products from system design through deployment.</p>
+        <p>I work across REST APIs, dashboards, database optimization, and cloud delivery. Most of my best work sits at the intersection of <span class="hl">performance, clean architecture, and product execution</span>.</p>
+        <p>Recent work includes ad-tech reporting systems, logistics platforms, Shopify automation, and security-focused authentication research. I care about load time, query efficiency, observability, and shipping software that survives real usage.</p>
       </div>
       <div class="stat-grid reveal">
-        <div class="stat-card"><div class="stat-label">Projects Shipped</div><div class="stat-value">12+</div></div>
-        <div class="stat-card"><div class="stat-label">Years Building</div><div class="stat-value g">4+</div></div>
-        <div class="stat-card"><div class="stat-label">Systems Optimised</div><div class="stat-value v">30+</div></div>
-        <div class="stat-card"><div class="stat-label">Stack Depth</div><div class="stat-value o">Full</div></div>
+        <div class="stat-card"><div class="stat-label">Experience</div><div class="stat-value">3+ yrs</div></div>
+        <div class="stat-card"><div class="stat-label">Query Latency Cut</div><div class="stat-value g">~70%</div></div>
+        <div class="stat-card"><div class="stat-label">Throughput Gain</div><div class="stat-value v">~40%</div></div>
+        <div class="stat-card"><div class="stat-label">Release Frequency</div><div class="stat-value o">+50%</div></div>
       </div>
     </div>
   </div>
@@ -462,32 +685,85 @@
     <div class="skill-groups reveal">
       <div class="skill-group">
         <div class="skill-group-title">Backend</div>
-        <div class="skill-item"><span class="skill-name">Node.js</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="92"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="85"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="94"></div></div></div>
+        <div class="skill-item"><span class="skill-name">FastAPI / Flask / Django</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="90"></div></div></div>
         <div class="skill-item"><span class="skill-name">REST / APIs</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></div>
-        <div class="skill-item"><span class="skill-name">SQL / NoSQL</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="88"></div></div></div>
+        <div class="skill-item"><span class="skill-name">GraphQL / JWT</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="84"></div></div></div>
       </div>
       <div class="skill-group">
         <div class="skill-group-title">Frontend</div>
-        <div class="skill-item"><span class="skill-name">React</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="87"></div></div></div>
-        <div class="skill-item"><span class="skill-name">TypeScript</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="82"></div></div></div>
-        <div class="skill-item"><span class="skill-name">CSS / UI</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="79"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Next.js</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="75"></div></div></div>
+        <div class="skill-item"><span class="skill-name">React</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="91"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Next.js</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="88"></div></div></div>
+        <div class="skill-item"><span class="skill-name">TypeScript / JavaScript</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="89"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Tailwind / MUI</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="82"></div></div></div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-title">Security &amp; Infra</div>
-        <div class="skill-item"><span class="skill-name">Auth / IAM</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="90"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Docker / CI</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="83"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Sec Architecture</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="78"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Performance Tuning</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="86"></div></div></div>
+        <div class="skill-group-title">Data &amp; Infra</div>
+        <div class="skill-item"><span class="skill-name">PostgreSQL</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="88"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Docker / CI/CD</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="86"></div></div></div>
+        <div class="skill-item"><span class="skill-name">AWS / GCP / Linux</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="80"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Redis / Background Jobs</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="79"></div></div></div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-title">Mindset</div>
-        <div class="skill-item"><span class="skill-name">Systems Thinking</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="97"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Debugging</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Architecture Design</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="91"></div></div></div>
-        <div class="skill-item"><span class="skill-name">Problem Solving</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="98"></div></div></div>
+        <div class="skill-group-title">Systems &amp; Performance</div>
+        <div class="skill-item"><span class="skill-name">Async I/O</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="87"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Concurrent Handling</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="89"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Observability</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="81"></div></div></div>
+        <div class="skill-item"><span class="skill-name">Query Optimisation</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="92"></div></div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">03.</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="experience-grid">
+      <article class="experience-card reveal">
+        <div class="experience-meta">
+          <span>Jun 2023 - Present</span>
+          <span>Remote</span>
+        </div>
+        <div class="experience-role">Software Engineer</div>
+        <div class="experience-company">MonetizeMore</div>
+        <ul class="experience-points">
+          <li>Designed and optimized Flask backend services for large-scale ad-tech reporting systems, cutting query latency by around 70%.</li>
+          <li>Built React and TypeScript dashboards for high-traffic workflows with sub-2s P95 load times.</li>
+          <li>Improved throughput by around 40% through concurrent request handling and better query execution strategies.</li>
+          <li>Automated CI/CD pipelines and increased release frequency by roughly 50%.</li>
+        </ul>
+      </article>
+      <article class="experience-card reveal">
+        <div class="experience-meta">
+          <span>Apr 2023 - Jan 2025</span>
+          <span>Remote</span>
+        </div>
+        <div class="experience-role">Software Developer</div>
+        <div class="experience-company">WebCartCentral</div>
+        <ul class="experience-points">
+          <li>Developed and customized Shopify storefronts using Liquid, HTML5, CSS3, and JavaScript.</li>
+          <li>Integrated Shopify Admin APIs, webhooks, payment systems, analytics, and advertising workflows.</li>
+          <li>Improved stability and mobile conversion during a traffic growth period of roughly 200%.</li>
+        </ul>
+      </article>
+      <article class="experience-card reveal">
+        <div class="experience-meta">
+          <span>Oct 2022 - May 2023</span>
+          <span>Remote</span>
+        </div>
+        <div class="experience-role">Software Engineer</div>
+        <div class="experience-company">ReconVault</div>
+        <ul class="experience-points">
+          <li>Built frontend interfaces for infrastructure monitoring dashboards and internal tooling.</li>
+          <li>Created Python diagnostics tools for DNS and AAAA record analysis in security investigations.</li>
+          <li>Refactored Flask services and added structured logging to improve observability and reduce downtime.</li>
+        </ul>
+      </article>
     </div>
   </div>
 </section>
@@ -496,46 +772,35 @@
 <section id="projects">
   <div class="section-wrap">
     <div class="section-header reveal">
-      <span class="section-num">03.</span>
+      <span class="section-num">04.</span>
       <h2 class="section-title">Projects</h2>
       <div class="section-line"></div>
     </div>
     <div class="project-grid">
       <div class="project-card reveal">
         <div class="project-top"><span class="project-icon">⚡</span><span class="project-tag tag-cyan">Full Stack</span></div>
-        <div class="project-name">ApprovalLayer</div>
-        <div class="project-desc">Multi-tier approval workflow engine with real-time state tracking, role-based access, and audit logging built for production workloads.</div>
-        <div class="project-stack"><span class="stack-chip">Node.js</span><span class="stack-chip">React</span><span class="stack-chip">PostgreSQL</span><span class="stack-chip">REST</span></div>
+        <div class="project-name">Parcel Logistics Management Platform</div>
+        <div class="project-desc">Architected a full-stack logistics platform handling 1000+ daily operational records with role-based access, complex filtering, and automated reporting workflows.</div>
+        <div class="project-stack"><span class="stack-chip">Python</span><span class="stack-chip">FastAPI</span><span class="stack-chip">React</span><span class="stack-chip">PostgreSQL</span><span class="stack-chip">Docker</span></div>
       </div>
       <div class="project-card reveal">
         <div class="project-top"><span class="project-icon">🛡️</span><span class="project-tag tag-violet">Security</span></div>
-        <div class="project-name">Phishing Training Platform</div>
-        <div class="project-desc">Security awareness platform simulating phishing scenarios with tracking, reporting dashboards, and user progression modules.</div>
-        <div class="project-stack"><span class="stack-chip">Python</span><span class="stack-chip">React</span><span class="stack-chip">Auth</span><span class="stack-chip">Analytics</span></div>
+        <div class="project-name">Secure Authentication &amp; Password Storage Prototype</div>
+        <div class="agha-badge">🔮 Aghanim's Scepter Upgrade</div>
+        <div class="project-desc">Research-led authentication prototype based on OPAQUE-inspired PAKE flows, designed to resist offline attacks while improving password storage security.</div>
+        <div class="project-stack"><span class="stack-chip">Python</span><span class="stack-chip">Cryptography</span><span class="stack-chip">Backend Architecture</span></div>
       </div>
       <div class="project-card reveal">
-        <div class="project-top"><span class="project-icon">🚗</span><span class="project-tag tag-green">Platform</span></div>
-        <div class="project-name">CustomerCore v2</div>
-        <div class="project-desc">Full-stack customer management system with mobile-first backend, real-time sync, and a clean separation between service layers.</div>
-        <div class="project-stack"><span class="stack-chip">Mobile</span><span class="stack-chip">Backend</span><span class="stack-chip">API</span><span class="stack-chip">Docker</span></div>
+        <div class="project-top"><span class="project-icon">📊</span><span class="project-tag tag-green">Ad-Tech</span></div>
+        <div class="project-name">Revenue Reporting Systems</div>
+        <div class="project-desc">Designed revenue-share calculation engines, ingestion pipelines, and financial dashboards integrating Google Ad Manager and analytics APIs.</div>
+        <div class="project-stack"><span class="stack-chip">Flask</span><span class="stack-chip">React</span><span class="stack-chip">Analytics APIs</span><span class="stack-chip">CI/CD</span></div>
       </div>
       <div class="project-card reveal">
-        <div class="project-top"><span class="project-icon">🤖</span><span class="project-tag tag-orange">AI / CLI</span></div>
-        <div class="project-name">Claude Code CLI</div>
-        <div class="project-desc">Custom MCP server and toolchain built around Claude's API — extending AI coding workflows with project-specific intelligence and automation.</div>
-        <div class="project-stack"><span class="stack-chip">MCP</span><span class="stack-chip">Claude API</span><span class="stack-chip">Node.js</span><span class="stack-chip">CLI</span></div>
-      </div>
-      <div class="project-card reveal">
-        <div class="project-top"><span class="project-icon">📦</span><span class="project-tag tag-cyan">Mobile</span></div>
-        <div class="project-name">MOWB Mobile App</div>
-        <div class="project-desc">Cross-platform mobile application with a clean architecture backend, real-time data pipeline, and smooth user experience.</div>
-        <div class="project-stack"><span class="stack-chip">React Native</span><span class="stack-chip">REST</span><span class="stack-chip">Backend</span></div>
-      </div>
-      <div class="project-card reveal">
-        <div class="project-top"><span class="project-icon">💡</span><span class="project-tag tag-violet">R&amp;D</span></div>
-        <div class="project-name">Clawd</div>
-        <div class="project-desc">Experimental AI tooling project exploring agent architectures, prompt engineering patterns, and autonomous task execution pipelines.</div>
-        <div class="project-stack"><span class="stack-chip">LLM</span><span class="stack-chip">Agents</span><span class="stack-chip">Automation</span></div>
+        <div class="project-top"><span class="project-icon">🛒</span><span class="project-tag tag-orange">Commerce</span></div>
+        <div class="project-name">Shopify Automation Workflows</div>
+        <div class="project-desc">Built storefront customizations and backend order and inventory automations across payment, analytics, and ad-platform integrations.</div>
+        <div class="project-stack"><span class="stack-chip">Shopify</span><span class="stack-chip">Liquid</span><span class="stack-chip">JavaScript</span><span class="stack-chip">Webhooks</span></div>
       </div>
     </div>
   </div>
@@ -545,34 +810,34 @@
 <section id="progression">
   <div class="section-wrap">
     <div class="section-header reveal">
-      <span class="section-num">04.</span>
+      <span class="section-num">05.</span>
       <h2 class="section-title">Journey</h2>
       <div class="section-line"></div>
     </div>
     <div class="timeline">
       <div class="tl-item reveal">
         <div class="tl-dot"></div>
-        <div class="tl-year">2022 — STAGE 1</div>
-        <div class="tl-title">First Production Systems</div>
-        <div class="tl-desc">Shipped first full-stack products. Learned the hard way that clean architecture matters from day one. Obsessed with making things actually work.</div>
+        <div class="tl-year">2019 - 2023</div>
+        <div class="tl-title">BSc Information Technology</div>
+        <div class="tl-desc">Completed undergraduate studies at Air University, including a final year project focused on a national child vaccination reporting data warehouse.</div>
       </div>
       <div class="tl-item reveal">
         <div class="tl-dot v"></div>
-        <div class="tl-year">2023 — STAGE 2</div>
-        <div class="tl-title">Security &amp; Platform Engineering</div>
-        <div class="tl-desc">Went deep on security architecture — auth systems, attack surfaces, secure API design. Built platforms handling real users and real data.</div>
+        <div class="tl-year">2022 - 2023</div>
+        <div class="tl-title">ReconVault</div>
+        <div class="tl-desc">Moved from frontend dashboards into backend diagnostics, security tooling, and observability-focused Flask services.</div>
       </div>
       <div class="tl-item reveal">
         <div class="tl-dot g"></div>
-        <div class="tl-year">2024 — STAGE 3</div>
-        <div class="tl-title">AI Tooling &amp; Systems Depth</div>
-        <div class="tl-desc">Started building on top of LLMs — MCP servers, agentic workflows, custom CLI toolchains. Applied systems thinking to AI infrastructure.</div>
+        <div class="tl-year">2023 - Present</div>
+        <div class="tl-title">Full-Stack Delivery at Scale</div>
+        <div class="tl-desc">Built reporting systems, dashboards, APIs, and e-commerce automations while leaning hard into performance optimization and production operations.</div>
       </div>
       <div class="tl-item reveal">
         <div class="tl-dot"></div>
-        <div class="tl-year">2025 — NOW</div>
-        <div class="tl-title">Senior Engineer · Architect Mode</div>
-        <div class="tl-desc">Designing and shipping complex, multi-system products. Balancing performance, security, and clean code at scale. Still learning. Always optimising.</div>
+        <div class="tl-year">2025 - 2026</div>
+        <div class="tl-title">MSc Advanced Computer Science</div>
+        <div class="tl-desc">Pursuing postgraduate research at the University of Chester, with a dissertation on secure alternatives to traditional password storage.</div>
       </div>
     </div>
   </div>
@@ -582,24 +847,26 @@
 <section id="contact">
   <div class="section-wrap">
     <div class="section-header reveal" style="justify-content:center;text-align:center;">
-      <span class="section-num">05.</span>
+      <span class="section-num">06.</span>
       <h2 class="section-title">Contact</h2>
       <div class="section-line"></div>
     </div>
     <p class="contact-sub reveal">
-      Got an interesting system to build, a hard problem to solve, or just want to talk architecture?
-      I'm available for the right kind of work.
+      If you need backend systems, product engineering, or a faster path from idea to production,
+      reach out. I'm open to strong technical work and collaborative teams.
     </p>
     <div class="contact-links reveal">
-      <a href="mailto:rafae@example.com" class="btn btn-primary">Send Message</a>
-      <a href="https://github.com/" class="btn btn-outline">GitHub</a>
-      <a href="https://linkedin.com/" class="btn btn-outline">LinkedIn</a>
+      <a href="mailto:abdul.rafae221@gmail.com" class="btn btn-primary">Send Message</a>
+      <a href="https://github.com/LDMark1" class="btn btn-outline" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://abdulrafae.vercel.app" class="btn btn-outline" target="_blank" rel="noreferrer">Website</a>
+      <a href="Abdul-Rafae-Full-Stack-CV.pdf" class="btn btn-outline" target="_blank" rel="noreferrer">Resume</a>
     </div>
   </div>
 </section>
 
 <footer>
   <span>portfolio-rafae</span> — designed &amp; built by rafae &nbsp;·&nbsp; 2026
+  &nbsp;·&nbsp; <span style="color:#ffd060;opacity:.6">GG WP</span>
 </footer>
 
 <!-- ─── THREE.JS IMPORTMAP ─── -->
@@ -607,320 +874,381 @@
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
 </script>
 
-<!-- ─── PLANET SCENE ─── -->
+
+<!-- ─── DOTA 2 BATTLEFIELD SCENE ─── -->
 <script type="module">
   import * as THREE from 'three';
 
   const canvas = document.getElementById('hero-canvas');
   const hero   = document.getElementById('hero');
 
-  // ── renderer ─────────────────────────────────────────────
+  // ── Renderer ─────────────────────────────────────────────
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
   renderer.toneMapping       = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.75;
+  renderer.toneMappingExposure = 0.62;
 
   const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 500);
-  camera.position.set(0, 12, 55);
+  const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 200);
+  // Dota 2 isometric-ish angle
+  camera.position.set(-14, 32, 34);
   camera.lookAt(0, 0, 0);
 
-  // ── PROCEDURAL PLANET TEXTURE ────────────────────────────
-  function makeTex(drawFn, size = 512) {
-    const c = document.createElement('canvas');
-    c.width = c.height = size;
-    drawFn(c.getContext('2d'), size);
-    return new THREE.CanvasTexture(c);
-  }
-
-  // fills rect then overlays noise splotches
-  function noiseTex(base, spots, size = 512) {
-    return makeTex((ctx, s) => {
-      ctx.fillStyle = base;
-      ctx.fillRect(0, 0, s, s);
-      spots.forEach(([col, count, r]) => {
-        ctx.globalAlpha = 0.55;
-        for (let i = 0; i < count; i++) {
-          const x = Math.random() * s, y = Math.random() * s;
-          const g = ctx.createRadialGradient(x, y, 0, x, y, r * s);
-          g.addColorStop(0, col);
-          g.addColorStop(1, 'transparent');
-          ctx.fillStyle = g;
-          ctx.fillRect(0, 0, s, s);
-        }
-      });
-      ctx.globalAlpha = 1;
-    });
-  }
-
-  // horizontal band texture (gas giant)
-  function bandTex(bands, size = 512) {
-    return makeTex((ctx, s) => {
-      let y = 0;
-      bands.forEach(([col, h]) => {
-        const ph = h * s;
-        const g = ctx.createLinearGradient(0, y, 0, y + ph);
-        g.addColorStop(0, col[0]); g.addColorStop(1, col[1]);
-        ctx.fillStyle = g;
-        ctx.fillRect(0, y, s, ph + 1);
-        y += ph;
-      });
-      // wispy swirls
-      ctx.globalAlpha = 0.18;
-      for (let i = 0; i < 12; i++) {
-        const cy = Math.random() * s;
-        const g2 = ctx.createLinearGradient(0, cy - 8, 0, cy + 8);
-        g2.addColorStop(0, 'transparent');
-        g2.addColorStop(.5, '#fff');
-        g2.addColorStop(1, 'transparent');
-        ctx.fillStyle = g2;
-        ctx.fillRect(0, cy - 8, s, 16);
-      }
-      ctx.globalAlpha = 1;
-    });
-  }
-
-  // ── PLANET DATA ──────────────────────────────────────────
-  // Each planet: { name, radius, orbitR, orbitSpeed, tilt, color, texture,
-  //               emissive, rings, moon }
-  const PLANET_DEFS = [
-    {
-      name: 'Mercury', radius: 0.9, orbitR: 10, orbitSpeed: 1.6, tilt: 0.03,
-      texture: noiseTex('#7a6a5a', [['#9e8c78', 18, .08], ['#4e3e2e', 12, .06]]),
-      emissive: 0x110800,
-    },
-    {
-      name: 'Venus', radius: 1.4, orbitR: 15.5, orbitSpeed: 1.1, tilt: 0.05,
-      texture: noiseTex('#c8a050', [['#e8c878', 20, .1], ['#a07828', 10, .07]]),
-      emissive: 0x201000,
-      atmoColor: 0xffe090, atmoOpacity: 0.18,
-    },
-    {
-      name: 'Earth', radius: 1.5, orbitR: 21, orbitSpeed: 0.85, tilt: 0.41,
-      texture: makeTex((ctx, s) => {
-        // ocean
-        ctx.fillStyle = '#1a5fa0'; ctx.fillRect(0, 0, s, s);
-        // continents
-        const land = [['#3a8a40',28,.12],['#4a9a50',20,.09],['#5aaa60',15,.07],['#8a7040',10,.06]];
-        land.forEach(([col, count, r]) => {
-          ctx.globalAlpha = 0.75;
-          for (let i = 0; i < count; i++) {
-            const x = Math.random()*s, y = Math.random()*s;
-            const g = ctx.createRadialGradient(x,y,0,x,y,r*s);
-            g.addColorStop(0,col); g.addColorStop(1,'transparent');
-            ctx.fillStyle = g; ctx.fillRect(0,0,s,s);
-          }
-        });
-        // clouds
-        ctx.globalAlpha = 0.22;
-        for (let i = 0; i < 25; i++) {
-          const x=Math.random()*s, y=Math.random()*s, r=(0.04+Math.random()*.08)*s;
-          const g=ctx.createRadialGradient(x,y,0,x,y,r);
-          g.addColorStop(0,'#fff'); g.addColorStop(1,'transparent');
-          ctx.fillStyle=g; ctx.fillRect(0,0,s,s);
-        }
-        ctx.globalAlpha = 1;
-      }),
-      emissive: 0x000a14,
-      atmoColor: 0x88ccff, atmoOpacity: 0.14,
-      moon: { radius: 0.38, orbitR: 2.8, orbitSpeed: 3.5, color: 0x999988 },
-    },
-    {
-      name: 'Mars', radius: 1.1, orbitR: 27.5, orbitSpeed: 0.65, tilt: 0.44,
-      texture: noiseTex('#b04020', [['#d06030',22,.1],['#802010',15,.07],['#c8a080',8,.04]]),
-      emissive: 0x180400,
-      atmoColor: 0xff8855, atmoOpacity: 0.08,
-    },
-    {
-      name: 'Jupiter', radius: 3.2, orbitR: 36, orbitSpeed: 0.38, tilt: 0.05,
-      texture: bandTex([
-        [['#c88840','#b07030'], 0.12],
-        [['#e8c890','#d0a860'], 0.10],
-        [['#a86820','#c07830'], 0.14],
-        [['#f0d8a0','#e0c070'], 0.08],
-        [['#c07030','#a85820'], 0.13],
-        [['#e8c080','#d0a850'], 0.09],
-        [['#b07830','#c09040'], 0.12],
-        [['#e0b860','#c8a040'], 0.10],
-        [['#a07028','#b88040'], 0.12],
-      ]),
-      emissive: 0x0d0600,
-      atmoColor: 0xffcc80, atmoOpacity: 0.1,
-    },
-    {
-      name: 'Saturn', radius: 2.6, orbitR: 46, orbitSpeed: 0.26, tilt: 0.47,
-      texture: bandTex([
-        [['#d4b07a','#c4a060'], 0.15],
-        [['#e8cc90','#d4b878'], 0.12],
-        [['#b89050','#a87840'], 0.13],
-        [['#dcc080','#c8aa68'], 0.10],
-        [['#c0a060','#b08848'], 0.15],
-        [['#e4ca88','#d0b870'], 0.10],
-        [['#a88040','#988030'], 0.13],
-        [['#d0b070','#c0a058'], 0.12],
-      ]),
-      emissive: 0x0c0800,
-      rings: { innerR: 3.4, outerR: 5.8, color: 0xc8a868, opacity: 0.72 },
-    },
-    {
-      name: 'Uranus', radius: 1.8, orbitR: 55, orbitSpeed: 0.17, tilt: 1.71,
-      texture: noiseTex('#5accd8', [['#78e0ec',15,.1],['#38a8b8',10,.08]]),
-      emissive: 0x001c20,
-      atmoColor: 0x88eeff, atmoOpacity: 0.15,
-      rings: { innerR: 2.2, outerR: 3.2, color: 0x88cccc, opacity: 0.3 },
-    },
-    {
-      name: 'Neptune', radius: 1.7, orbitR: 63, orbitSpeed: 0.12, tilt: 0.49,
-      texture: noiseTex('#2040c0', [['#3060e0',18,.1],['#1028a0',12,.08],['#4080ff',8,.05]]),
-      emissive: 0x000818,
-      atmoColor: 0x6699ff, atmoOpacity: 0.16,
-    },
-  ];
-
-  // ── BUILD SCENE ──────────────────────────────────────────
-  // central star
-  const starGeo = new THREE.SphereGeometry(3, 32, 32);
-  const starMat = new THREE.MeshStandardMaterial({
-    color: 0xfff5c0,
-    emissive: 0xffe050,
-    emissiveIntensity: 2.5,
-    roughness: 0.4,
-  });
-  const star = new THREE.Mesh(starGeo, starMat);
-  scene.add(star);
-
-  // star corona glow
-  const coronaGeo = new THREE.SphereGeometry(3.6, 32, 32);
-  const coronaMat = new THREE.MeshBasicMaterial({
-    color: 0xffdd44, transparent: true, opacity: 0.12, side: THREE.BackSide,
-  });
-  scene.add(new THREE.Mesh(coronaGeo, coronaMat));
-
-  // star point light
-  const starLight = new THREE.PointLight(0xfff5d0, 6, 200, 1.2);
-  scene.add(starLight);
-
-  // ── HEMISPHERE LIGHT ─────────────────────────────────────
-  const hemi = new THREE.HemisphereLight(0x0033aa, 0x000011, 0.6);
+  // ── Hemisphere light — Radiant green sky / Dire dark-red ground ──
+  const hemi = new THREE.HemisphereLight(0x1a3a22, 0x2a0808, 1.6);
   scene.add(hemi);
-
-  // ── AMBIENT ──────────────────────────────────────────────
-  const ambient = new THREE.AmbientLight(0x050510, 1.2);
+  const ambient = new THREE.AmbientLight(0x060e08, 3);
   scene.add(ambient);
 
-  // ── STARS PARTICLE FIELD ─────────────────────────────────
-  const starCount = 1800;
-  const starPos   = new Float32Array(starCount * 3);
-  for (let i = 0; i < starCount; i++) {
-    const theta = Math.random() * Math.PI * 2;
-    const phi   = Math.acos(2 * Math.random() - 1);
-    const r     = 120 + Math.random() * 80;
-    starPos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
-    starPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-    starPos[i*3+2] = r * Math.cos(phi);
-  }
-  const starFieldGeo = new THREE.BufferGeometry();
-  starFieldGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  const starFieldMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.25, transparent: true, opacity: 0.8 });
-  const starField = new THREE.Points(starFieldGeo, starFieldMat);
-  scene.add(starField);
+  // Night directional (moon)
+  const moon = new THREE.DirectionalLight(0x8899cc, 0.9);
+  moon.position.set(-15, 25, 10);
+  moon.castShadow = true;
+  moon.shadow.mapSize.setScalar(1024);
+  moon.shadow.camera.left = moon.shadow.camera.bottom = -35;
+  moon.shadow.camera.right = moon.shadow.camera.top   =  35;
+  moon.shadow.camera.far = 90;
+  scene.add(moon);
 
-  // ── PLANET OBJECTS ───────────────────────────────────────
-  const planets = [];
-
-  PLANET_DEFS.forEach(def => {
-    const pivot = new THREE.Object3D();
-    scene.add(pivot);
-
-    // planet mesh
-    const geo = new THREE.SphereGeometry(def.radius, 48, 48);
-    const mat = new THREE.MeshPhongMaterial({
-      map: def.texture,
-      emissive: new THREE.Color(def.emissive || 0x000000),
-      emissiveIntensity: 0.8,
-      shininess: 18,
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.rotation.z = def.tilt || 0;
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    mesh.position.x = def.orbitR;
-    pivot.add(mesh);
-
-    // atmosphere halo
-    if (def.atmoColor) {
-      const atmoGeo = new THREE.SphereGeometry(def.radius * 1.08, 32, 32);
-      const atmoMat = new THREE.MeshBasicMaterial({
-        color: def.atmoColor,
-        transparent: true,
-        opacity: def.atmoOpacity,
-        side: THREE.BackSide,
-      });
-      const atmo = new THREE.Mesh(atmoGeo, atmoMat);
-      mesh.add(atmo);
-    }
-
-    // rings
-    if (def.rings) {
-      const { innerR, outerR, color, opacity } = def.rings;
-      const ringGeo = new THREE.RingGeometry(innerR, outerR, 80, 4);
-      // UV fix so texture maps correctly
-      const pos2 = ringGeo.attributes.position;
-      const uv   = ringGeo.attributes.uv;
-      for (let i = 0; i < pos2.count; i++) {
-        const x = pos2.getX(i), y = pos2.getY(i);
-        const r = Math.sqrt(x*x + y*y);
-        uv.setXY(i, (r - innerR) / (outerR - innerR), 0);
+  // ── TERRAIN ───────────────────────────────────────────────
+  {
+    const geo = new THREE.PlaneGeometry(80, 80, 52, 52);
+    const pos = geo.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i), y = pos.getY(i);
+      // river diagonal: x + y ≈ 0  (river along x=−z after rotation)
+      const riverDist = Math.abs(x + y) / Math.SQRT2;
+      let h = 0;
+      if (riverDist > 3.8) {
+        h = Math.sin(x * 0.22) * Math.cos(y * 0.26) * 2.0
+          + Math.sin(x * 0.55 + 0.8) * Math.cos(y * 0.48) * 0.8
+          + (Math.random() - 0.5) * 0.35;
+        // push up near jungle / base edges
+        const edge = Math.max(0, Math.abs(x) - 22) + Math.max(0, Math.abs(y) - 22);
+        h += edge * 0.06;
       }
-      // procedural ring texture
-      const rTex = makeTex((ctx, s) => {
-        const g = ctx.createLinearGradient(0, 0, s, 0);
-        g.addColorStop(0,   'transparent');
-        g.addColorStop(0.1, `rgba(${(color>>16)&255},${(color>>8)&255},${color&255},0.9)`);
-        g.addColorStop(0.45,'rgba(255,240,200,0.5)');
-        g.addColorStop(0.55,'rgba(255,240,200,0.7)');
-        g.addColorStop(0.9, `rgba(${(color>>16)&255},${(color>>8)&255},${color&255},0.6)`);
-        g.addColorStop(1,   'transparent');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, s, s);
-      }, 256);
-      const ringMat = new THREE.MeshBasicMaterial({
-        map: rTex, side: THREE.DoubleSide, transparent: true, opacity,
-      });
-      const ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.rotation.x = Math.PI / 2;
-      mesh.add(ring);
+      pos.setZ(i, h);
+    }
+    geo.computeVertexNormals();
+    const mesh = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ color: 0x152012 }));
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+  }
+
+  // ── RIVER ─────────────────────────────────────────────────
+  // Diagonal strip along x = −z
+  {
+    const riverGeo = new THREE.PlaneGeometry(5.5, 100);
+    const riverMat = new THREE.MeshBasicMaterial({ color: 0x00bbcc, transparent: true, opacity: 0.48 });
+    const river = new THREE.Mesh(riverGeo, riverMat);
+    river.rotation.x = -Math.PI / 2;
+    river.rotation.z = -Math.PI / 4;
+    river.position.y = 0.12;
+    scene.add(river);
+
+    // wider glow underneath
+    const gGeo = new THREE.PlaneGeometry(9, 100);
+    const gMat = new THREE.MeshBasicMaterial({ color: 0x00ddff, transparent: true, opacity: 0.06 });
+    const glow = new THREE.Mesh(gGeo, gMat);
+    glow.rotation.x = -Math.PI / 2;
+    glow.rotation.z = -Math.PI / 4;
+    glow.position.y = 0.1;
+    scene.add(glow);
+  }
+
+  // ── RIVER SPARKLE PARTICLES ────────────────────────────────
+  const RP_COUNT = 280;
+  const rpPos    = new Float32Array(RP_COUNT * 3);
+  const rpSpeed  = new Float32Array(RP_COUNT);
+  for (let i = 0; i < RP_COUNT; i++) {
+    const t = (Math.random() - 0.5) * 55;
+    rpPos[i*3]   = t + (Math.random() - 0.5) * 4;
+    rpPos[i*3+1] = 0.22 + Math.random() * 0.4;
+    rpPos[i*3+2] = -t + (Math.random() - 0.5) * 4;
+    rpSpeed[i]   = 0.04 + Math.random() * 0.07;
+  }
+  const rpGeo = new THREE.BufferGeometry();
+  rpGeo.setAttribute('position', new THREE.BufferAttribute(rpPos, 3));
+  scene.add(new THREE.Points(rpGeo, new THREE.PointsMaterial({
+    color: 0x00ffff, size: 0.17, transparent: true, opacity: 0.72,
+  })));
+
+  // ── ANCIENT BUILDER ────────────────────────────────────────
+  const ancients = [];
+  function buildAncient(px, pz, isRadiant) {
+    const col  = isRadiant ? 0x22ee66 : 0xee2211;
+    const emi  = isRadiant ? 0x003316 : 0x330400;
+    const baseC = isRadiant ? 0x112210 : 0x1a0808;
+
+    const mat = new THREE.MeshPhongMaterial({
+      color:  isRadiant ? 0x1a5a28 : 0x5a1410,
+      emissive: new THREE.Color(emi),
+      emissiveIntensity: 1.0,
+      shininess: 55,
+    });
+    const tipMat = new THREE.MeshPhongMaterial({
+      color: col, emissive: new THREE.Color(col),
+      emissiveIntensity: 2.0, shininess: 130,
+    });
+
+    const grp = new THREE.Group();
+    grp.position.set(px, 0, pz);
+
+    // Circular base platform
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(3.8, 4.8, 1.3, 12), new THREE.MeshLambertMaterial({ color: baseC }));
+    base.receiveShadow = true;
+    grp.add(base);
+
+    // Central spire (hexagonal prism, tall)
+    const spire = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 2.0, 12, 6), mat);
+    spire.position.y = 7;
+    spire.castShadow = true;
+    grp.add(spire);
+
+    // Glowing crystal tip
+    const tip = new THREE.Mesh(new THREE.ConeGeometry(0.75, 3.5, 6), tipMat);
+    tip.position.y = 14.5;
+    grp.add(tip);
+
+    // 4 side spires at angles
+    for (let i = 0; i < 4; i++) {
+      const a = (i / 4) * Math.PI * 2 + (isRadiant ? 0 : Math.PI / 4);
+      const s = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 1.0, 7, 6), mat);
+      s.position.set(Math.cos(a) * 2.6, 4, Math.sin(a) * 2.6);
+      s.castShadow = true;
+      grp.add(s);
+
+      const st = new THREE.Mesh(new THREE.ConeGeometry(0.35, 2.0, 6), tipMat);
+      st.position.set(Math.cos(a) * 2.6, 8.5, Math.sin(a) * 2.6);
+      grp.add(st);
     }
 
-    // moon
-    if (def.moon) {
-      const m = def.moon;
-      const moonGeo = new THREE.SphereGeometry(m.radius, 24, 24);
-      const moonMat = new THREE.MeshPhongMaterial({ color: m.color, shininess: 5 });
-      const moonMesh = new THREE.Mesh(moonGeo, moonMat);
-      moonMesh.castShadow = true;
-      mesh.add(moonMesh);
-      planets.push({ pivot, mesh, def, moon: moonMesh, moonAngle: Math.random() * Math.PI * 2 });
-      return;
+    // Outer glow shell
+    const gSphere = new THREE.Mesh(
+      new THREE.SphereGeometry(5.5, 16, 16),
+      new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.055, side: THREE.BackSide })
+    );
+    gSphere.position.y = 6;
+    grp.add(gSphere);
+
+    const pl = new THREE.PointLight(col, 5.5, 30, 1.4);
+    pl.position.y = 9;
+    grp.add(pl);
+
+    scene.add(grp);
+    ancients.push({ grp, pl, tip, tipMat });
+    return grp;
+  }
+
+  buildAncient(-21, -21, true);  // Radiant ancient — back left
+  buildAncient( 21,  21, false); // Dire ancient   — front right
+
+  // ── TOWER BUILDER ──────────────────────────────────────────
+  const towerData = [];
+  function buildTower(px, pz, isRadiant) {
+    const col = isRadiant ? 0x00ee55 : 0xee2211;
+    const grp = new THREE.Group();
+    grp.position.set(px, 0, pz);
+
+    // Base shaft
+    const shaft = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.65, 1.0, 6.5, 8),
+      new THREE.MeshPhongMaterial({ color: isRadiant ? 0x1a3a20 : 0x3a1010, shininess: 28 })
+    );
+    shaft.castShadow = true;
+    grp.add(shaft);
+
+    // Top platform ring
+    const plat = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.2, 0.9, 0.55, 8),
+      new THREE.MeshPhongMaterial({ color: isRadiant ? 0x204828 : 0x481818 })
+    );
+    plat.position.y = 3.5;
+    grp.add(plat);
+
+    // Glowing orb
+    const orbMat = new THREE.MeshPhongMaterial({
+      color: col, emissive: new THREE.Color(col), emissiveIntensity: 2.2, shininess: 130,
+    });
+    const orb = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), orbMat);
+    orb.position.y = 4.5;
+    grp.add(orb);
+
+    const pl = new THREE.PointLight(col, 2.8, 16, 1.5);
+    pl.position.y = 4.5;
+    grp.add(pl);
+
+    scene.add(grp);
+    towerData.push({ orb, orbMat, pl });
+  }
+
+  // Radiant towers (guarding -21,-21 ancient)
+  buildTower(-8,  -15, true);
+  buildTower(-15,  -8, true);
+  buildTower(-3,   -3, true); // mid
+
+  // Dire towers (guarding 21,21 ancient)
+  buildTower( 8,  15, false);
+  buildTower( 15,  8, false);
+  buildTower( 3,   3, false); // mid
+
+  // ── JUNGLE TREES (InstancedMesh) ───────────────────────────
+  {
+    const dummy   = new THREE.Object3D();
+    const coneGeo = new THREE.ConeGeometry(1.1, 4.8, 7);
+    const coneMat = new THREE.MeshLambertMaterial({ color: 0x091408 });
+    const trunkGeo = new THREE.CylinderGeometry(0.17, 0.22, 1.6, 5);
+    const trunkMat = new THREE.MeshLambertMaterial({ color: 0x180f08 });
+
+    const zones = [
+      { cx: -16, cz:  4, r: 9, n: 22 },
+      { cx:  -4, cz:-16, r: 9, n: 22 },
+      { cx:  16, cz: -4, r: 9, n: 22 },
+      { cx:   4, cz: 16, r: 9, n: 22 },
+      { cx: -28, cz:  2, r: 5, n:  8 },
+      { cx:  28, cz: -2, r: 5, n:  8 },
+      { cx:   2, cz:-28, r: 5, n:  8 },
+      { cx:  -2, cz: 28, r: 5, n:  8 },
+    ];
+
+    const treePos = [];
+    zones.forEach(z => {
+      for (let i = 0; i < z.n; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const d = Math.random() * z.r;
+        treePos.push([z.cx + Math.cos(a)*d, z.cz + Math.sin(a)*d, 0.65 + Math.random()*0.7]);
+      }
+    });
+
+    const coneInst  = new THREE.InstancedMesh(coneGeo,  coneMat,  treePos.length);
+    const trunkInst = new THREE.InstancedMesh(trunkGeo, trunkMat, treePos.length);
+
+    treePos.forEach(([x, z, s], i) => {
+      dummy.position.set(x, s * 2.4 + 0.8 * s, z);
+      dummy.scale.setScalar(s);
+      dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
+      dummy.updateMatrix();
+      coneInst.setMatrixAt(i, dummy.matrix);
+
+      dummy.position.set(x, 0.8 * s, z);
+      dummy.rotation.set(0, 0, 0);
+      dummy.updateMatrix();
+      trunkInst.setMatrixAt(i, dummy.matrix);
+    });
+
+    coneInst.instanceMatrix.needsUpdate  = true;
+    trunkInst.instanceMatrix.needsUpdate = true;
+    coneInst.castShadow  = true;
+    trunkInst.castShadow = true;
+    scene.add(coneInst);
+    scene.add(trunkInst);
+  }
+
+  // ── ROSHAN PIT ────────────────────────────────────────────
+  {
+    const pitGrp = new THREE.Group();
+    pitGrp.position.set(10, 0, -9);
+    scene.add(pitGrp);
+
+    const rockMat = new THREE.MeshLambertMaterial({ color: 0x2a1c10 });
+    for (let i = 0; i < 10; i++) {
+      const a = (i / 10) * Math.PI * 2;
+      const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.65 + Math.random()*0.45), rockMat);
+      rock.position.set(Math.cos(a) * 3.0, 0.55, Math.sin(a) * 3.0);
+      rock.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+      rock.castShadow = true;
+      pitGrp.add(rock);
     }
 
-    planets.push({ pivot, mesh, def, moon: null, moonAngle: 0 });
-  });
+    // Dirt floor
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(2.8, 18), new THREE.MeshLambertMaterial({ color: 0x180e08 }));
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = 0.06;
+    pitGrp.add(floor);
 
-  // ── initial orbit offsets ────────────────────────────────
-  planets.forEach(p => {
-    p.angle = Math.random() * Math.PI * 2;
-  });
+    // Roshan "eyes" — dim orange glow inside pit
+    const roshGlow = new THREE.Mesh(
+      new THREE.SphereGeometry(1.4, 12, 12),
+      new THREE.MeshBasicMaterial({ color: 0xff5500, transparent: true, opacity: 0.08 })
+    );
+    roshGlow.position.y = 0.8;
+    pitGrp.add(roshGlow);
+  }
+  const roshLight = new THREE.PointLight(0xff5500, 3.0, 13, 2);
+  roshLight.position.set(10, 2.5, -9);
+  scene.add(roshLight);
 
-  // ── MOUSE ────────────────────────────────────────────────
+  // ── RUNE ORBS ─────────────────────────────────────────────
+  const runeOrbs = [];
+  function makeRuneOrb(x, z, col) {
+    const mat = new THREE.MeshPhongMaterial({
+      color: col, emissive: new THREE.Color(col),
+      emissiveIntensity: 2.8, shininess: 140,
+      transparent: true, opacity: 0.92,
+    });
+    const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.44, 18, 18), mat);
+    mesh.position.set(x, 1.4, z);
+
+    // outer glow
+    mesh.add(new THREE.Mesh(
+      new THREE.SphereGeometry(0.9, 14, 14),
+      new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.11, side: THREE.BackSide })
+    ));
+
+    const pl = new THREE.PointLight(col, 2.0, 10, 2);
+    mesh.add(pl);
+    scene.add(mesh);
+    runeOrbs.push({ mesh, pl, mat, baseY: 1.4 });
+  }
+
+  makeRuneOrb( 0,  0, 0xffd700); // power rune — center map
+  makeRuneOrb(-7, -7, 0x00ffaa); // bounty rune — Radiant side
+  makeRuneOrb( 7,  7, 0xff3333); // bounty rune — Dire side
+
+  // ── AEGIS OF THE IMMORTAL (in Roshan pit) ─────────────────
+  {
+    const aegisMat = new THREE.MeshPhongMaterial({
+      color: 0xffd060, emissive: new THREE.Color(0xcc5500),
+      emissiveIntensity: 1.4, shininess: 160,
+    });
+    const aegis = new THREE.Mesh(new THREE.SphereGeometry(0.55, 20, 20), aegisMat);
+    aegis.position.set(10, 1.1, -9);
+    aegis.add(new THREE.Mesh(
+      new THREE.TorusGeometry(0.85, 0.05, 8, 40),
+      new THREE.MeshBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.65 })
+    ));
+    scene.add(aegis);
+  }
+
+  // ── FLOATING MAGIC PARTICLES ──────────────────────────────
+  const MP_COUNT = 700;
+  const mpPos    = new Float32Array(MP_COUNT * 3);
+  const mpVel    = new Float32Array(MP_COUNT * 3);
+  for (let i = 0; i < MP_COUNT; i++) {
+    mpPos[i*3]   = (Math.random()-0.5)*65;
+    mpPos[i*3+1] = Math.random()*16;
+    mpPos[i*3+2] = (Math.random()-0.5)*65;
+    mpVel[i*3]   = (Math.random()-0.5)*0.018;
+    mpVel[i*3+1] = 0.008 + Math.random()*0.016;
+    mpVel[i*3+2] = (Math.random()-0.5)*0.018;
+  }
+  const mpGeo = new THREE.BufferGeometry();
+  mpGeo.setAttribute('position', new THREE.BufferAttribute(mpPos, 3));
+  scene.add(new THREE.Points(mpGeo, new THREE.PointsMaterial({
+    color: 0x44ffaa, size: 0.13, transparent: true, opacity: 0.5,
+  })));
+
+  // ── MOUSE ─────────────────────────────────────────────────
   let mouseX = 0, mouseY = 0;
   document.addEventListener('mousemove', e => {
-    mouseX = (e.clientX / window.innerWidth  - .5) * 2;
-    mouseY = (e.clientY / window.innerHeight - .5) * 2;
+    mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
   });
 
-  // ── RESIZE ───────────────────────────────────────────────
+  // ── RESIZE ────────────────────────────────────────────────
   function resize() {
     const w = hero.clientWidth, h = hero.clientHeight;
     renderer.setSize(w, h, false);
@@ -930,68 +1258,94 @@
   resize();
   new ResizeObserver(resize).observe(hero);
 
-  // ── THEME SYNC ───────────────────────────────────────────
-  // called by toggle button below
+  // ── THEME SYNC ────────────────────────────────────────────
   window.__setThreeTheme = function(isDark) {
     if (isDark) {
-      scene.background = new THREE.Color(0x020408);
-      scene.fog = new THREE.FogExp2(0x020408, 0.004);
-      hemi.color.set(0x0033aa);
-      hemi.groundColor.set(0x000011);
-      hemi.intensity = 0.6;
-      ambient.intensity = 1.2;
-      starField.visible = true;
-      renderer.toneMappingExposure = 0.75;
+      scene.background = new THREE.Color(0x050c07);
+      scene.fog         = new THREE.FogExp2(0x050c07, 0.016);
+      hemi.color.set(0x1a3a22);
+      hemi.groundColor.set(0x2a0808);
+      hemi.intensity    = 1.6;
+      ambient.intensity = 3;
+      moon.intensity    = 0.9;
+      moon.color.set(0x8899cc);
+      renderer.toneMappingExposure = 0.62;
     } else {
-      scene.background = new THREE.Color(0xb0ccee);
-      scene.fog = new THREE.FogExp2(0xb0ccee, 0.005);
-      hemi.color.set(0x99bbff);
-      hemi.groundColor.set(0xffd080);
-      hemi.intensity = 2.2;
-      ambient.intensity = 3.0;
-      starField.visible = false;
-      renderer.toneMappingExposure = 1.05;
+      scene.background = new THREE.Color(0x2e4a26);
+      scene.fog         = new THREE.FogExp2(0x2e4a26, 0.013);
+      hemi.color.set(0x88cc88);
+      hemi.groundColor.set(0x556633);
+      hemi.intensity    = 3.0;
+      ambient.intensity = 6;
+      moon.intensity    = 2.4;
+      moon.color.set(0xffffdd);
+      renderer.toneMappingExposure = 1.1;
     }
   };
-  // init dark
   window.__setThreeTheme(true);
 
-  // ── ANIMATE ──────────────────────────────────────────────
+  // ── ANIMATE ───────────────────────────────────────────────
   let t = 0;
   function animate() {
     requestAnimationFrame(animate);
-    t += 0.004;
+    t += 0.005;
 
-    // star pulse
-    star.material.emissiveIntensity = 2.2 + Math.sin(t * 1.8) * 0.4;
-    coronaMat.opacity = 0.10 + Math.sin(t * 2.2) * 0.03;
-
-    // orbit planets
-    planets.forEach(({ pivot, mesh, def, moon, moonAngle }, i) => {
-      planets[i].angle += def.orbitSpeed * 0.008;
-      pivot.rotation.y = planets[i].angle;
-      // self-rotation
-      mesh.rotation.y += 0.004 + i * 0.001;
-
-      if (moon) {
-        planets[i].moonAngle += 0.03;
-        moon.position.set(
-          Math.cos(planets[i].moonAngle) * def.moon.orbitR,
-          Math.sin(planets[i].moonAngle) * 0.3,
-          Math.sin(planets[i].moonAngle) * def.moon.orbitR,
-        );
-      }
+    // Rune orbs — bob and spin
+    runeOrbs.forEach((r, i) => {
+      r.mesh.position.y = r.baseY + Math.sin(t * 1.5 + i * 2.1) * 0.45;
+      r.mesh.rotation.y += 0.022;
+      r.pl.intensity     = 1.8 + Math.sin(t * 2.8 + i * 1.3) * 0.8;
     });
 
-    // slow camera drift on mouse
-    camera.position.x += (mouseX * 6 - camera.position.x) * 0.02;
-    camera.position.y += (12 - mouseY * 4 - camera.position.y) * 0.02;
+    // Ancient heartbeat
+    ancients.forEach((a, i) => {
+      a.pl.intensity = 5 + Math.sin(t * 1.8 + i * Math.PI) * 1.5;
+      a.tipMat.emissiveIntensity = 1.8 + Math.sin(t * 2.2 + i * Math.PI) * 0.6;
+    });
+
+    // Tower orbs pulse
+    towerData.forEach((tw, i) => {
+      tw.pl.intensity = 2.4 + Math.sin(t * 2.1 + i * 0.9) * 0.7;
+      tw.orbMat.emissiveIntensity = 2 + Math.sin(t * 2.1 + i * 0.9) * 0.6;
+    });
+
+    // Roshan glows — angry pulse
+    roshLight.intensity = 2.5 + Math.sin(t * 3.4) * 1.0;
+
+    // River particles flow diagonally
+    const rp = rpGeo.attributes.position.array;
+    for (let i = 0; i < RP_COUNT; i++) {
+      rp[i*3]   += rpSpeed[i] * 0.5;
+      rp[i*3+2] -= rpSpeed[i] * 0.5;
+      if (rp[i*3] > 28) { rp[i*3] = -28; rp[i*3+2] += 56; }
+      if (rp[i*3+2] < -28) { rp[i*3+2] = 28; rp[i*3]  -= 56; }
+    }
+    rpGeo.attributes.position.needsUpdate = true;
+
+    // Magic particles drift upward and reset
+    const mp = mpGeo.attributes.position.array;
+    for (let i = 0; i < MP_COUNT; i++) {
+      mp[i*3]   += mpVel[i*3];
+      mp[i*3+1] += mpVel[i*3+1];
+      mp[i*3+2] += mpVel[i*3+2];
+      if (mp[i*3+1] > 17) mp[i*3+1] = 0;
+      if (Math.abs(mp[i*3])   > 32) mpVel[i*3]   *= -1;
+      if (Math.abs(mp[i*3+2]) > 32) mpVel[i*3+2] *= -1;
+    }
+    mpGeo.attributes.position.needsUpdate = true;
+
+    // Camera slow drift + mouse parallax
+    const tx = -14 + Math.sin(t * 0.1) * 5 + mouseX * 5;
+    const tz =  34 + Math.cos(t * 0.08) * 3 - mouseY * 3;
+    camera.position.x += (tx - camera.position.x) * 0.02;
+    camera.position.z += (tz - camera.position.z) * 0.02;
     camera.lookAt(0, 0, 0);
 
     renderer.render(scene, camera);
   }
   animate();
 </script>
+
 
 <!-- ─── UI SCRIPT ─── -->
 <script>
@@ -1032,6 +1386,62 @@
       step();
     }, 600);
   });
+
+  // ── DOTA 2: Rune notifications ────────────────────────────
+  const RUNES = [
+    { title: 'Bounty Rune',      sub: '+250 Gold secured',           orb: '🟡', c: '#ffd060' },
+    { title: 'Haste Rune',       sub: 'Movement speed maximized',    orb: '🔵', c: '#00e5ff' },
+    { title: 'Regeneration Rune',sub: 'Health & mana restored',      orb: '🟢', c: '#00ff88' },
+    { title: 'Double Damage',    sub: 'Output doubled for 45s',      orb: '🔷', c: '#4488ff' },
+    { title: 'Arcane Rune',      sub: 'Mana cost reduced — go deep', orb: '🟣', c: '#b060ff' },
+    { title: 'Illusion Rune',    sub: '2 copies deployed',           orb: '🩵', c: '#88ddff' },
+    { title: 'Invisibility Rune',sub: 'Undetected. Flanking now.',   orb: '⚪', c: '#cccccc' },
+  ];
+
+  const runeEl    = document.getElementById('dota-rune');
+  const runeOrb   = document.getElementById('rune-orb');
+  const runeTitle = document.getElementById('rune-title');
+  const runeSub   = document.getElementById('rune-sub');
+
+  function showRune() {
+    const r = RUNES[Math.floor(Math.random() * RUNES.length)];
+    runeOrb.textContent  = r.orb;
+    runeTitle.textContent = r.title;
+    runeSub.textContent   = r.sub;
+    runeEl.style.setProperty('--rune-c', r.c);
+    runeOrb.style.background = r.c + '22';
+    runeEl.classList.add('show');
+    setTimeout(() => runeEl.classList.remove('show'), 3800);
+  }
+  // first rune after 4s, then every ~18s
+  setTimeout(() => { showRune(); setInterval(showRune, 18000); }, 4000);
+
+  // ── DOTA 2: Kill feed ─────────────────────────────────────
+  const KILLS = [
+    ['Rafae', '⚔️', 'a Memory Leak'],
+    ['Rafae', '⚔️', 'Query Latency'],
+    ['Rafae', '⚔️', 'Tech Debt'],
+    ['Rafae', '🔥', 'a Prod Bug'],
+    ['Rafae', '⚔️', 'Slow Load Time'],
+    ['Rafae is on a ', '💀 KILLING SPREE', ''],
+    ['MEGA KILL — ', '🏆 Latency', ' eliminated'],
+  ];
+
+  const kfEl = document.getElementById('kill-feed');
+
+  function showKill() {
+    const [a, b, c] = KILLS[Math.floor(Math.random() * KILLS.length)];
+    const el = document.createElement('div');
+    el.className = 'kf-entry';
+    el.innerHTML = `<span class="kf-hero">${a}</span><span class="kf-sword">${b}</span>${c ? `<span class="kf-target">${c}</span>` : ''}`;
+    kfEl.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 350);
+    }, 3500);
+  }
+  setTimeout(() => { showKill(); setInterval(showKill, 12000); }, 8000);
 
   // dark / light toggle
   const html    = document.documentElement;
